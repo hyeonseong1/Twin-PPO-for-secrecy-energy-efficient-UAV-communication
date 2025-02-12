@@ -6,8 +6,8 @@ This project is a simple ppo implementation for study.
 
 ## Prerequisites
 Before running the script, ensure the following dependencies are installed:
-- Python 3.10
-- Install requirements.txt
+- Python 3.10.x
+- Requirements libraries
 
 You can install the dependencies by running:
 
@@ -26,6 +26,8 @@ If you want to change reward or num_epochs, open the train_ppo.py then modify pa
 ```python
 parser.add_argument('--reward', type=str, required=True, default='see',
                     help="which reward would you like to implement ['ssr', 'see']")
+parser.add_argument('--ep-num', type=int, required=True, default=1000,
+                    help="how many episodes do you want to train yout DRL")
 ```
 and then 
 ```bash
