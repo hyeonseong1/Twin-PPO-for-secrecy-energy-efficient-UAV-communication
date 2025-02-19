@@ -12,12 +12,12 @@ Before running the script, ensure the following dependencies are installed:
 You can install the dependencies by running:
 
 ```bash
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 Then you can easily train agents
 ```bash
-cd Twin-PPO
-python train_ppo.py
+$ cd Twin-PPO
+$ python train_ppo.py
 ```
 ---
 ### Change setup
@@ -31,7 +31,7 @@ parser.add_argument('--ep-num', type=int, required=True, default=1000,
 ```
 and then 
 ```bash
-python train_ppo.py --reward ssr --ep-num 1000
+$ python train_ppo.py --reward ssr --ep-num 1000
 ```
 ---
 ## Reference
