@@ -8,6 +8,7 @@ This project is a simple ppo implementation for study.
 Before running the script, ensure the following dependencies are installed:
 - Python 3.10.x
 - Requirements libraries
+- Recommend running code on linux
 
 You can install the dependencies by running:
 
