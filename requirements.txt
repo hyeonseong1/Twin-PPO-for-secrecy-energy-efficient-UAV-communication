@@ -1,7 +1,6 @@
-# Twin-TD3 requirements
+# Twin-PPO requirements
 # Usage: pip install -r requirements.txt
 
-matplotlib==3.4.3
 pyparsing==3.0.9
 # sklearn==0.0.post1
 joblib==1.2.0

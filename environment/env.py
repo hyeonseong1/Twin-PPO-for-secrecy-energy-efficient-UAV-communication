@@ -1,5 +1,7 @@
 #%matplotlib inline
 import numpy as np
+import torch
+
 from .entity import *
 from .channel import *
 from .math_tool import *
@@ -250,7 +252,7 @@ class MiniSystem(object):
                 reward += energy_penalty
         ######################################################
         
-        # 8 calculate if UAV is cross the bourder
+        # 8 calculate if UAV is cross the boundary
         reward = math.tanh(reward) # new for energy (ori not commented)
         done = False
         x, y = self.UAV.coordinate[0:2]
@@ -283,8 +285,10 @@ class MiniSystem(object):
             if reward_ < 0:
                 reward = reward_ * self.user_num * 10
      
-        return reward
-    
+        # return reward
+        # return torch.clip(torch.tensor(reward), -5, 1)
+        return torch.tanh(reward)
+
     def observe(self):
         """
         used in function main to get current state
