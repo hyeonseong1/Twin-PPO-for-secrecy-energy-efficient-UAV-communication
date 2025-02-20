@@ -287,7 +287,7 @@ class MiniSystem(object):
      
         # return reward
         # return torch.clip(torch.tensor(reward), -5, 1)
-        return torch.tanh(reward)
+        return torch.tanh(torch.tensor(reward))
 
     def observe(self):
         """
