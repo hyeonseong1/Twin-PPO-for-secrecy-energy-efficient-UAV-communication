@@ -4,7 +4,7 @@ This guide explains how to run the **Twin PPO** algorithm to maximize Security E
 
 This project is a simple ppo implementation for study.
 
-***Current version doesn't work now. I trying to find what is wrong."***
+***"Current version doesn't work now. I trying to find what is wrong."***
 
 ## Prerequisites
 Before running the script, ensure the following dependencies are installed:
