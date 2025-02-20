@@ -288,6 +288,7 @@ class PPOAgent(object):
         # Update the actor network
         self.actor.optimizer.zero_grad()
         actor_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.actor.parameters(), max_norm=1000)
         self.actor.optimizer.step()
 
         # Update the critic network (value function)
@@ -296,6 +297,7 @@ class PPOAgent(object):
 
         self.critic.optimizer.zero_grad()
         critic_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.critic.parameters(), max_norm=1000)
         self.critic.optimizer.step()
 
     def store_transition(self, state, action, reward, state_, done):

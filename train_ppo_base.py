@@ -6,7 +6,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--reward', type=str, required=False, default='see',
                     help="which reward would you like to implement ['ssr', 'see']")
-parser.add_argument('--ep-num', type=int, required=False, default=300,
+parser.add_argument('--ep-num', type=int, required=False, default=500,
                     help="how many episodes do you want to train yout DRL")
 parser.add_argument('--trained-uav', default=False, action='store_true',
                     help='use trained uav instead of retraining')
@@ -22,7 +22,8 @@ import numpy as np
 import math
 import time
 import torch
-from environment.env import MiniSystem
+# -1 ~ 1 clipping
+from environment.env_clip import MiniSystem
 from ppo_base import PPOAgent
 
 episode_num = EPISODE_NUM
@@ -206,5 +207,5 @@ plt.plot(xaxis, see)
 plt.title('SEE (not averaged)')
 plt.xlabel('epoch')
 plt.ylabel('SEE')
-plt.savefig('/result_png/SEE_ppo_base.png')
+plt.savefig('./result_png/SEE_ppo_base.png')
 # plt.show()

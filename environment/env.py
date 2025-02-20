@@ -285,9 +285,9 @@ class MiniSystem(object):
             if reward_ < 0:
                 reward = reward_ * self.user_num * 10
      
-        # return reward
+        return reward
         # return torch.clip(torch.tensor(reward), -5, 1)
-        return torch.tanh(torch.tensor(reward))
+        # return torch.tanh(torch.tensor(reward))
 
     def observe(self):
         """
