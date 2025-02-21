@@ -22,7 +22,7 @@ $ pip install -r requirements.txt
 Then you can easily train agents
 ```bash
 $ cd Twin-PPO
-$ python train_ppo.py
+$ python train_ppo_base.py
 ```
 ---
 ### Change setup
@@ -31,14 +31,15 @@ If you want to change reward or num_epochs, open the train_ppo.py then modify pa
 ```python
 parser.add_argument('--reward', type=str, required=True, default='see',
                     help="which reward would you like to implement ['ssr', 'see']")
-parser.add_argument('--ep-num', type=int, required=True, default=1000,
+parser.add_argument('--ep-num', type=int, required=True, default=5000,
                     help="how many episodes do you want to train yout DRL")
 ```
 and then 
 ```bash
-$ python train_ppo.py --reward ssr --ep-num 1000
+$ python train_ppo_base.py --reward ssr --ep-num 1000
 ```
 ---
 ## Reference
 1. https://github.com/yjwong1999/Twin-TD3
 2. https://hiddenbeginner.github.io/Deep-Reinforcement-Learnings/book/Chapter2/12-implementation-ppo.html#id4
+3. https://arxiv.org/abs/1707.06347
