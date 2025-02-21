@@ -31,7 +31,7 @@ If you want to change reward or num_epochs, open the train_ppo.py then modify pa
 ```python
 parser.add_argument('--reward', type=str, required=True, default='see',
                     help="which reward would you like to implement ['ssr', 'see']")
-parser.add_argument('--ep-num', type=int, required=True, default=5000,
+parser.add_argument('--ep-num', type=int, required=True, default=10000,
                     help="how many episodes do you want to train yout DRL")
 ```
 and then 
