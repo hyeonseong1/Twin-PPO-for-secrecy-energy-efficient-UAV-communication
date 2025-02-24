@@ -36,7 +36,7 @@ parser.add_argument('--ep-num', type=int, required=True, default=10000,
 ```
 and then 
 ```bash
-$ python train_ppo_base.py --reward ssr --ep-num 1000
+$ python train_ppo_base.py --reward ssr --ep-num 20000
 ```
 ---
 ## Reference
