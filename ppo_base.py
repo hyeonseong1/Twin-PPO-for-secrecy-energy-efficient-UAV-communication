@@ -92,17 +92,13 @@ class Actor(nn.Module):
                  input_dim,
                  hidden1_dim,
                  hidden2_dim,
-                 hidden3_dim,
                  n_action,  # action이 output
-                 activation_f=torch.relu,
-                 optimizer=optim.Adam):
+                 ):
         super(Actor, self).__init__()
         self.input_dim = input_dim
         self.hidden1_dim = hidden1_dim
         self.hidden2_dim = hidden2_dim
-        self.hidden3_dim = hidden3_dim
         self.n_action = n_action
-        self.activation = activation_f
 
         self.fc1 = nn.Linear(self.input_dim, self.hidden1_dim)
         self.bn1 = nn.LayerNorm(self.hidden1_dim)
@@ -110,28 +106,19 @@ class Actor(nn.Module):
         self.fc2 = nn.Linear(self.hidden1_dim, self.hidden2_dim)
         self.bn2 = nn.LayerNorm(self.hidden2_dim)
 
-        self.fc3 = nn.Linear(self.hidden2_dim, self.hidden3_dim)
-        self.bn3 = nn.LayerNorm(self.hidden3_dim)
+        self.mu = nn.Linear(self.hidden2_dim, self.n_action)
+        self.std = nn.Linear(self.hidden2_dim, self.n_action)
 
-        self.mu = nn.Linear(self.hidden3_dim, self.n_action)
-        self.std = nn.Linear(self.hidden3_dim, self.n_action)
-
-        self.optimizer = optimizer(self.parameters(), lr=alpha)
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=alpha)
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
         self.to(self.device)
 
     def forward(self, state):
         x = self.fc1(state)
-        x = self.bn1(x)
-        x = self.activation(x)
+        x = torch.relu(self.bn1(x))
 
         x = self.fc2(x)
-        x = self.bn2(x)
-        x = self.activation(x)
-
-        x = self.fc3(x)
-        x = self.bn3(x)
-        x = self.activation(x)
+        x = torch.relu(self.bn2(x))
 
         mu = self.mu(x)
         log_std = self.std(x)
@@ -139,16 +126,6 @@ class Actor(nn.Module):
 
         return mu, std # UAV coordination(3) or RIS beamforming(20)
 
-    # def save_checkpoint(self):
-    #     print('... saving checkpoint ...')
-    #     torch.save(self.state_dict(), self.checkpoint_file)
-    #
-    # def load_checkpoint(self, load_file=''):
-    #     print('... loading checkpoint ...')
-    #     if torch.cuda.is_available():
-    #         self.load_state_dict(torch.load(load_file))
-    #     else:
-    #         self.load_state_dict(torch.load(load_file, map_location=torch.device('cpu')))
 
 class Critic(nn.Module):
     def __init__(self,
@@ -156,7 +133,6 @@ class Critic(nn.Module):
                  input_dim,
                  hidden1_dim,
                  hidden2_dim,
-                 hidden3_dim,
                  n_action,
                  activation_f=torch.relu,
                  optimizer=optim.Adam):
@@ -164,7 +140,6 @@ class Critic(nn.Module):
         self.input_dim = input_dim
         self.hidden1_dim = hidden1_dim
         self.hidden2_dim = hidden2_dim
-        self.hidden3_dim = hidden3_dim
         self.n_action = n_action
         self.activation = activation_f
 
@@ -174,10 +149,7 @@ class Critic(nn.Module):
         self.fc2 = nn.Linear(self.hidden1_dim, self.hidden2_dim)
         self.bn2 = nn.LayerNorm(self.hidden2_dim)
 
-        self.fc3 = nn.Linear(self.hidden2_dim, self.hidden3_dim)
-        self.bn3 = nn.LayerNorm(self.hidden3_dim)
-
-        self.v = nn.Linear(self.hidden3_dim, 1)
+        self.v = nn.Linear(self.hidden2_dim, 1)
 
         self.optimizer = optimizer(self.parameters(), lr=beta)
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -192,24 +164,9 @@ class Critic(nn.Module):
         state_value = self.bn2(state_value)
         state_value = self.activation(state_value)
 
-        state_value = self.fc3(state_value)
-        state_value = self.bn3(state_value)
-        state_value = self.activation(state_value)
-
         state_value = self.v(state_value)
 
         return state_value
-
-    # def save_checkpoint(self):
-    #     print('... saving checkpoint ...')
-    #     torch.save(self.state_dict(), self.checkpoint_file)
-    #
-    # def load_checkpoint(self, load_file=''):
-    #     print('... loading checkpoint ...')
-    #     if torch.cuda.is_available():
-    #         self.load_state_dict(torch.load(load_file))
-    #     else:
-    #         self.load_state_dict(torch.load(load_file, map_location=torch.device('cpu')))
 
 
 class PPOAgent(object):
@@ -239,9 +196,9 @@ class PPOAgent(object):
         self.buffer = RolloutBuffer()
 
         # alpha for actor, beta for critic; learning rate hyperparameter
-        self.actor = Actor(alpha, input_dim, layer1_size, layer2_size, layer3_size, n_action)
+        self.actor = Actor(alpha, input_dim, layer1_size, layer2_size, n_action)
 
-        self.critic = Critic(beta, input_dim, layer1_size, layer2_size, layer3_size, n_action)
+        self.critic = Critic(beta, input_dim, layer1_size, layer2_size, n_action)
 
         self.old_actor = copy.deepcopy(self.actor)
 

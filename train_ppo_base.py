@@ -6,7 +6,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--reward', type=str, required=False, default='see',
                     help="which reward would you like to implement ['ssr', 'see']")
-parser.add_argument('--ep-num', type=int, required=False, default=10000,
+parser.add_argument('--ep-num', type=int, required=False, default=300,
                     help="how many episodes do you want to train yout DRL")
 parser.add_argument('--trained-uav', default=False, action='store_true',
                     help='use trained uav instead of retraining')
@@ -23,13 +23,13 @@ import math
 import time
 import torch
 # -1 ~ 1 clipping
-from environment.env_clip import MiniSystem
-# from environment.env import MiniSystem
+# from environment.env_clip import MiniSystem
+from environment.env import MiniSystem
 from ppo_base import PPOAgent
 
 episode_num = EPISODE_NUM
 episode_cnt = 0
-step_num = 128
+step_num = 100 # 128
 project_name = f'pre-trained_uav/PPO_{REWARD_DESIGN}' if TRAINED_UAV else f'training/PPO_{REWARD_DESIGN}'
 
 system = MiniSystem(
@@ -53,7 +53,7 @@ if_BS = False
 if_robust = True
 
 # 기본 시드 고정
-seed = 42
+seed = 534
 np.random.seed(seed)
 np.random.seed(seed)
 # 파이토치
@@ -65,33 +65,31 @@ torch.backends.cudnn.benchmark = False
 torch.backends.cudnn.deterministic = True
 
 agent_ris = PPOAgent(
-    alpha = 3e-5,
-    beta = 3e-5,
+    alpha = 3e-4,
+    beta = 3e-3,
     input_dim = system.get_system_state_dim(),
     n_action = system.get_system_action_dim() - 2,
     lamda = 0.95,
     gamma = 0.99,
     eps_clip = 0.2,
-    layer1_size = 400,
-    layer2_size = 256,
-    layer3_size = 128,
-    batch_size = 128,
-    K_epochs = 5,
+    layer1_size = 256,
+    layer2_size = 128,
+    batch_size = 100,
+    K_epochs = 2,
     noise = 'AWGN'
 )
 agent_uav = PPOAgent(
-    alpha = 3e-5,
-    beta = 3e-5,
+    alpha = 3e-4,
+    beta = 3e-3,
     input_dim = 3,
     n_action = 2,
     lamda = 0.95,
     gamma = 0.99,
     eps_clip = 0.2,
-    layer1_size = 400,
-    layer2_size = 256,
-    layer3_size = 128,
-    batch_size = 128,
-    K_epochs = 5,
+    layer1_size = 256,
+    layer2_size = 128,
+    batch_size = 100,
+    K_epochs = 2,
     noise = 'AWGN'
 )
 
@@ -173,8 +171,8 @@ while episode_cnt < episode_num:
             # 4 store state pair into memory pool
             agent_ris.store_transition(observarion_ris, action_ris, reward, next_state_ris, int(done))
             agent_uav.store_transition(observarion_uav, action_uav, reward, next_state_uav, int(done))
-            # 5 update PPO by old policy
-            if episode_cnt != 0 and episode_cnt % 5 == 0 and step_cnt == 100:
+            # 5 update PPO by old policy, 0, 5, 100
+            if episode_cnt != 0 and episode_cnt % 1 == 0 and step_cnt == 1:
                 agent_ris.learn()
                 if not TRAINED_UAV:
                     agent_uav.learn()
