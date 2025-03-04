@@ -24,6 +24,8 @@ Then you can easily train agents
 $ cd Twin-PPO
 $ python train_ppo_base.py
 ```
+```bash
+$ python3 load_and_plot.py --path data/storage/training/[your data path] --ep-num [your episode]
 ---
 ### Change setup
 If you want to change reward or num_epochs, open the train_ppo.py then modify parser to make required=True
