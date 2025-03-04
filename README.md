@@ -24,6 +24,7 @@ Then you can easily train agents
 $ cd Twin-PPO
 $ python train_ppo_base.py
 ```
+Use metrics to see your models performance
 ```bash
 $ python3 load_and_plot.py --path data/storage/training/[your data path] --ep-num [your episode]
 ```
