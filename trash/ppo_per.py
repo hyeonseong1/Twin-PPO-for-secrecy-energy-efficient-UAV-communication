@@ -8,7 +8,7 @@ import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
-from environment.prioritized_replay_buffer import PrioritizedReplayBuffer
+from sac.prioritized_replay_buffer import PrioritizedReplayBuffer
 
 class OUActionNoise(object): # 시간적 상관 관계
     def __init__(self, mu, sigma=0.15, theta=.2, dt=1e-2, x0=None):

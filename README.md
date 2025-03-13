@@ -22,7 +22,7 @@ $ pip install -r requirements.txt
 Then you can easily train agents
 ```bash
 $ cd Twin-PPO
-$ python train_ppo_base.py
+$ python main_train_ppo.py
 ```
 Use metrics to see your models performance
 ```bash
@@ -40,7 +40,7 @@ parser.add_argument('--ep-num', type=int, required=True, default=10000,
 ```
 and then 
 ```bash
-$ python train_ppo_base.py --reward ssr --ep-num 20000
+$ python main_train_ppo.py --reward ssr --ep-num 20000
 ```
 ---
 ## Reference

@@ -217,9 +217,9 @@ class LoadAndPlot(object):
         plt.cla()
 
         print()
-        print('###########################################################')
-        print('Metrics\t\t\tLast Episode\tMax Values Reached')
-        print('###########################################################')
+        print('###############################################################')
+        print('Metrics\t\t\tLast Episode\tOptimal Values Reached')
+        print('###############################################################')
         print('SSR (bits/s/Hz)\t\t{:.2f}\t\t{:.2f}'.format(average_sum_secrecy_rate[-1], max(average_sum_secrecy_rate)))
 
         ###############################
@@ -257,17 +257,20 @@ class LoadAndPlot(object):
         for ssr_one_episode, energies_one_episode in zip(ssr, energies):
             ssr_one_episode = ssr_one_episode[:len(energies_one_episode)]
             energies_one_episode = energies_one_episode[:len(ssr_one_episode)]
-            # print(len(ssr_one_episode), len(energies_one_episode))
-
             try:
                 see = np.array(ssr_one_episode) / np.array(energies_one_episode)
                 average_see.append(sum(see) / len(see))
             except:
                 average_see.append(0)
 
-        plt.plot(range(len(average_see)), average_see)
+        average_see_kJ = np.array(average_see) * 1000  # convert to kJ
+
+        plt.plot(range(len(average_see)), average_see_kJ)
         plt.xlabel("Episodes (Ep)")
-        plt.ylabel("Average Secrecy Energy Efficiency")
+        plt.ylabel("Average Secrecy Energy Efficiency (bits/s/Hz/kJ)")
+
+        plt.yticks(np.arange(0, int(max(average_see_kJ)) + 1, step=10))
+
         plt.savefig(self.store_path + 'plot/average_secrecy_energy_efficiency.png')
         plt.cla()
 
