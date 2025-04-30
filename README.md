@@ -8,7 +8,7 @@ This project is a simple ppo implementation for study.
 
 ----
 
-****My D-PPO implementation is much better than existing D-PPO paper's performance!!!****       
+****My Twin-PPO implementation is much better than existing D-PPO paper's performance****       
 ----
 **48.44(paper) -> 57.20(my code) in SEE, [10 trials average]**                                     
 >Replay buffer in paper's algorithm decrease the performance of ppo.                       
