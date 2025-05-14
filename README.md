@@ -1,7 +1,7 @@
 # Twin PPO for Maximizing SEE (Security Energy Efficiency)
 
 This guide explains how to run the **Twin PPO** algorithm to maximize Security Energy Efficiency (SEE).                      
-This project is a simple ppo implementation for study.
+This project is a ppo implementation for study.
 
 ----
 
