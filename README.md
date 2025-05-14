@@ -3,9 +3,6 @@
 This guide explains how to run the **Twin PPO** algorithm to maximize Security Energy Efficiency (SEE).                      
 This project is a simple ppo implementation for study.
 
-~~***"Current version doesn't work now. I trying to find what is wrong."(02/14/25)***~~                   
-***"The issues has been resolved"(02/22/25)***
-
 ----
 
 ****My Twin-PPO implementation is much better than existing D-PPO paper's performance****       
