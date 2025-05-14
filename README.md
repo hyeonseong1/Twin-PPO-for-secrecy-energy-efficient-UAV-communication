@@ -20,17 +20,17 @@ https://ieeexplore.ieee.org/document/10684922
 
 
 ## Prerequisites
-Before running the script, ensure the following dependencies are installed:
+Before running the script, to ensure the following dependencies are installed:
 - Python 3.10.x
 - Requirements libraries
 - Recommend running code on linux
 
-You can install the dependencies by running:
+You can install the dependencies by run below command:
 
 ```bash
 $ pip install -r requirements.txt
 ```
-Then you can easily train agents
+Train twin-agent
 ```bash
 $ cd Twin-PPO
 $ python main_train.py
@@ -46,7 +46,7 @@ If you want to change reward or num_epochs, open the train_ppo.py then modify pa
 ```python
 parser.add_argument('--reward', type=str, required=True, default='see',
                     help="which reward would you like to implement ['ssr', 'see']")
-parser.add_argument('--ep-num', type=int, required=True, default=10000,
+parser.add_argument('--ep-num', type=int, required=True, default=300,
                     help="how many episodes do you want to train yout DRL")
 ```
 and then 
